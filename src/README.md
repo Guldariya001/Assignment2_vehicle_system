@@ -1,33 +1,44 @@
-# Vehicle Management System
+# **Library Management API**
 
-## Project Overview
-This project demonstrates Object-Oriented Programming principles such as inheritance,
-abstraction, composition, and method overriding using a Vehicle Management System.
+## **1. Project Overview**
+This project is a Java-based application for managing a library database.
+It demonstrates object-oriented programming (OOP) principles, a multi-layer architecture (MVC), and basic data management using an in-memory database simulation.
 
-## OOP Concepts Used
-- Inheritance: Car, Motorcycle, and Truck extend the abstract Vehicle class
-- Abstraction: Vehicle is an abstract class with abstract methods
-- Composition & Aggregation: Vehicles have Driver objects, and one driver can drive multiple vehicles
-- Method Overriding: Each subclass provides its own engine behavior
+### **Entities**
+- **Book:** Represents a book with title, author, and price.
+- **EBook & PrintedBook:** Subclasses of Book demonstrating inheritance and specialization.
+- **Author:** Represents the author of a book.
+- **DatabaseConnection:** Simulates database storage for books.
 
-## Class Hierarchy
-- Vehicle (abstract)
-    - Car
-    - Motorcycle
-    - Truck
+## **2. OOP Design**
+- **Abstraction:** `Book` defines common properties for all types of books.
+- **Inheritance:** `EBook` and `PrintedBook` extend `Book`.
+- **Polymorphism:** In `Main.java`, different types of books are stored in a `List<Book>`.
+- **Encapsulation:** All fields are private with public getters and setters.
+- **Interfaces:** `Validatable` and `PricedItem` define common behaviors.
 
-Protected fields are used to allow access in subclasses while maintaining encapsulation.
+## **3. Application Layers**
+- **model:** Data classes and interfaces.
+- **repository:** Storage and retrieval of books.
+- **service:** Book logic.
+- **controller:** Manages application flow.
+- **exception:** Custom exceptions.
+- **utils:** Helper classes.
 
-## How to Compile and Run
-```bash
-javac *.java
-java Main
+## **4. Database Schema**
+- Uses `DatabaseConnection` class to store book objects in memory.
 
+**Example Schema:**
+Book:
+title VARCHAR NOT NULL
 
-## Relection
+author VARCHAR NOT NULL
 
-Inheritance simplified the design by allowing common vehicle properties to be stored in one superclass.
-Method overriding allowed each vehicle type to have its own engine behavior.
+price DOUBLE NOT NULL
 
-One challenge was correctly using protected access modifiers so that subclasses could access fields
-without breaking encapsulation.
+type VARCHAR NOT NULL (EBook / PrintedBook)
+
+## **5. Running the Application**
+- Open project in IntelliJ IDEA.
+- Ensure all packages and `Main.java` are present.
+- Run `Main.java`.
