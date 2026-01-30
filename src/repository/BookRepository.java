@@ -1,20 +1,31 @@
 package repository;
 
-import model.Book;
-import utils.DatabaseConnection;
-import exception.DuplicateResourceException;
+import java.util.ArrayList;
 import java.util.List;
+import model.Book;
 
 public class BookRepository {
-    public void addBook(Book book) throws DuplicateResourceException {
-        if (DatabaseConnection.findBookByTitle(book.getTitle()) != null) {
-            throw new DuplicateResourceException("Книга с таким названием уже существует!");
-        }
-        DatabaseConnection.addBook(book);
+
+    private List<Book> books;
+
+    public BookRepository() {
+        this.books = new ArrayList<>();
+    }
+
+    public void addBook(Book book) {
+        books.add(book);
     }
 
     public List<Book> getAllBooks() {
-        return DatabaseConnection.getAllBooks();
+        return books;
+    }
+
+    public Book findByTitle(String title) {
+        for (Book book : books) {
+            if (book.getTitle().equalsIgnoreCase(title)) {
+                return book;
+            }
+        }
+        return null;
     }
 }
-

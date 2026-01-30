@@ -1,19 +1,26 @@
 package service;
 
+import java.util.List;
 import model.Book;
 import repository.BookRepository;
-import exception.DuplicateResourceException;
-import java.util.List;
 
 public class BookService {
-    private final BookRepository repository = new BookRepository();
 
-    public void addBook(Book book) throws DuplicateResourceException {
-        repository.addBook(book);
+    private BookRepository bookRepository;
+
+    public BookService() {
+        this.bookRepository = new BookRepository();
+    }
+
+    public void addBook(Book book) {
+        bookRepository.addBook(book);
     }
 
     public List<Book> getAllBooks() {
-        return repository.getAllBooks();
+        return bookRepository.getAllBooks();
+    }
+
+    public Book findByTitle(String title) {
+        return bookRepository.findByTitle(title);
     }
 }
-

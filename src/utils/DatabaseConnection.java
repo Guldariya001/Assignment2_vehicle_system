@@ -1,16 +1,44 @@
 package utils;
 
-import model.Book;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
+import java.io.InputStream;
+import java.util.Scanner;
 
 public class DatabaseConnection {
-    private static final List<Book> books = new ArrayList<>();
+    private static Connection connection;
 
-    public static void addBook(Book book) { books.add(book); }
-    public static List<Book> getAllBooks() { return books; }
-    public static Book findBookByTitle(String title) {
-        return books.stream().filter(b -> b.getTitle().equals(title)).findFirst().orElse(null);
+    public static Connection getConnection() throws SQLException {
+        if (connection == null) {
+            connection = DriverManager.getConnection(
+                    "jdbc:postgresql://localhost:5432/librarydb",
+                    "username",
+                    "password"
+            );
+
+            createTablesFromSQL();
+        }
+        return connection;
+    }
+
+    private static void createTablesFromSQL() {
+        try {
+            Statement statement = connection.createStatement();
+
+            InputStream input = DatabaseConnection.class
+                    .getClassLoader()
+                    .getResourceAsStream("library_schema.sql");
+            Scanner scanner = new Scanner(input).useDelimiter(";");
+            while (scanner.hasNext()) {
+                String sql = scanner.next().trim();
+                if (!sql.isEmpty()) {
+                    statement.execute(sql);
+                }
+            }
+            scanner.close();
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 
