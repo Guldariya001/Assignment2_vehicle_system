@@ -25,4 +25,3 @@ public class Book implements PricedItem, Validatable {
         return price;
     }
 }
-
