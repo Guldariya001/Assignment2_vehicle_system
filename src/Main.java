@@ -1,28 +1,30 @@
-import controller.BookController;
-import model.Author;
-import model.EBook;
-import model.PrintedBook;
-import model.Book;
-import exception.DuplicateResourceException;
-import java.util.List;
+import controller.LibraryController;
+import model.*;
+import repository.BookRepository;
+import service.LibraryServiceImpl;
+import utils.ReflectionUtils;
+import utils.SortingUtils;
 
 public class Main {
     public static void main(String[] args) {
-        BookController controller = new BookController();
 
-        try {
-            controller.addBook(new PrintedBook("1984", new Author("George Orwell"), 15.0, 328));
-            controller.addBook(new EBook("Harry Potter", new Author("J.K. Rowling"), 10.0, 5.0));
-        } catch (DuplicateResourceException e) {
-            System.out.println(e.getMessage());
-        }
+        BookRepository repo = new BookRepository();
+        LibraryServiceImpl service = new LibraryServiceImpl(repo);
+        LibraryController controller = new LibraryController(service);
 
-        List<Book> books = controller.getAllBooks();
-        for (Book b : books) {
-            System.out.println(b.getTitle() + " by " + b.getAuthor().getName() + ", $" + b.getPrice());
-        }
+        Category c1 = new Category(1, "Programming");
+
+        Book b1 = new Book(1, "Java", "Bloch", true, c1, 50);
+        Book b2 = new Book(2, "Algorithms", "CLRS", true, c1, 70);
+
+        controller.createBook(b1);
+        controller.createBook(b2);
+
+        SortingUtils.sortByTitle(service.getAllBooks());
+        ReflectionUtils.inspect(b1);
     }
 }
+
 
 
 

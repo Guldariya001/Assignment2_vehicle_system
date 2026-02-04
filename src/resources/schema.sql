@@ -1,23 +1,31 @@
-CREATE TABLE authors (
-         author_id SERIAL PRIMARY KEY,
-         name VARCHAR(100) NOT NULL
+DROP TABLE IF EXISTS books;
+DROP TABLE IF EXISTS categories;
+
+CREATE TABLE categories (
+     id INT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE books (
-         book_id SERIAL PRIMARY KEY,
-         title VARCHAR(200) NOT NULL,
-         price DOUBLE PRECISION NOT NULL,
-        available BOOLEAN DEFAULT TRUE,
-        author_id INT REFERENCES authors(author_id),
-        type VARCHAR(20) NOT NULL
+    id INT PRIMARY KEY,
+    title VARCHAR(200) NOT NULL,
+    author VARCHAR(150) NOT NULL,
+    price DOUBLE PRECISION NOT NULL,
+    available BOOLEAN NOT NULL,
+    category_id INT,
+
+     CONSTRAINT fk_category
+         FOREIGN KEY (category_id)
+         REFERENCES categories(id)
+         ON DELETE RESTRICT
 );
 
-CREATE TABLE ebooks (
-        book_id INT PRIMARY KEY REFERENCES books(book_id),
-        file_size_mb DOUBLE PRECISION NOT NULL
-);
+INSERT INTO categories (id, name) VALUES
+(1, 'Programming'),
+(2, 'Databases'),
+(3, 'Computer Science');
 
-CREATE TABLE printed_books (
-        book_id INT PRIMARY KEY REFERENCES books(book_id),
-        pages INT NOT NULL
-);
+INSERT INTO books (id, title, author, price, available, category_id) VALUES
+(1, 'Effective Java', 'Joshua Bloch', 45.0, true, 1),
+(2, 'Clean Code', 'Robert Martin', 40.0, true, 1),
+(3, 'Database System Concepts', 'Silberschatz', 55.0, true, 2);

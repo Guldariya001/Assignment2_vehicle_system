@@ -1,27 +1,34 @@
 package model;
 
-public class Book implements PricedItem, Validatable {
-    private String title;
-    private Author author;
+public class Book extends LibraryItem {
+    private String author;
+    private boolean available;
+    private Category category;
     private double price;
 
-    public Book(String title, Author author, double price) {
-        this.title = title;
+    public Book(int id, String title, String author, boolean available, Category category, double price) {
+        super(id, title);
         this.author = author;
+        this.available = available;
+        this.category = category;
         this.price = price;
     }
 
-    public String getTitle() { return title; }
-    public Author getAuthor() { return author; }
-    public double getPrice() { return price; }
-
     @Override
-    public boolean validate() {
-        return title != null && !title.isEmpty() && price >= 0;
+    public String getType() {
+        return "BOOK";
     }
 
     @Override
-    public double getPriceValue() {
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public double getPrice() {
         return price;
+    }
+
+    public Category getCategory() {
+        return category;
     }
 }
