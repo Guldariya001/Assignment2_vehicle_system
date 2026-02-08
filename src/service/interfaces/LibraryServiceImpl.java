@@ -30,24 +30,3 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
-    public Book getBookById(int id) {
-        Book book = bookRepository.findById(id);
-        if (book == null)
-            throw new ResourceNotFoundException("Book not found");
-        return book;
-    }
-
-    @Override
-    public List<Book> getAllBooks() {
-        return bookRepository.findAll();
-    }
-
-    @Override
-    public void deleteBook(int id) {
-        if (bookRepository.findById(id) == null)
-            throw new ResourceNotFoundException("Book not found");
-        bookRepository.delete(id);
-    }
-}
-
-
